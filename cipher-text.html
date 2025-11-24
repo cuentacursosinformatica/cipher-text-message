@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herramienta de Cifrado AES</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 500px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box; /* Para que el padding no rompa el ancho */
+            font-family: monospace; /* Mejor para ver el código cifrado */
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-bottom: 1rem;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        /* Estilo para el campo de resultado */
+        #resultado {
+            background-color: #e9ecef;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Cifrador de Mensajes</h2>
+
+        <div class="form-group">
+            <label for="password">Contraseña (Clave):</label>
+            <input type="text" id="password" placeholder="Escribe tu clave aquí...">
+        </div>
+
+        <div class="form-group">
+            <label for="mensaje">Mensaje Original:</label>
+            <textarea id="mensaje" placeholder="Escribe el texto grande aquí..."></textarea>
+        </div>
+
+        <button onclick="cifrarMensaje()">🔒 Cifrar Mensaje</button>
+
+        <div class="form-group">
+            <label for="resultado">Mensaje Cifrado:</label>
+            <textarea id="resultado" readonly placeholder="El resultado aparecerá aquí..."></textarea>
+        </div>
+    </div>
+
+    <script>
+        function cifrarMensaje() {
+            // 1. Obtener los valores de los campos
+            const password = document.getElementById('password').value;
+            const mensaje = document.getElementById('mensaje').value;
+            const outputField = document.getElementById('resultado');
+
+            // 2. Validar que no estén vacíos
+            if (!password || !mensaje) {
+                alert("Por favor, introduce tanto la contraseña como el mensaje.");
+                return;
+            }
+
+            try {
+                // 3. Cifrar usando AES (Advanced Encryption Standard)
+                // La librería CryptoJS se encarga de la complejidad matemática
+                const cifrado = CryptoJS.AES.encrypt(mensaje, password).toString();
+
+                // 4. Mostrar el resultado
+                outputField.value = cifrado;
+            } catch (error) {
+                console.error(error);
+                outputField.value = "Error al cifrar.";
+            }
+        }
+    </script>
+
+</body>
+</html>
